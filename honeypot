@@ -1,38 +1,69 @@
 import socket
 import threading
 import datetime
+import os
 
 # Cấu hình honeypot
 HOST = "0.0.0.0"
 PORT = 2222
 BANNER = "SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2\r\n"
-LOG_FILE = "honeypot.log"
+LOG_FILE = "/tmp/honeypot.log"
 
+# Hàm ghi log
 def log_event(message):
-    with open(LOG_FILE, "a") as f:
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"[{timestamp}] {message}\n")
+    try:
+        log_dir = os.path.dirname(LOG_FILE) or "."
+        if not os.access(log_dir, os.W_OK):
+            raise PermissionError(f"No write permission for directory {log_dir}")
+        with open(LOG_FILE, "a") as f:
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            f.write(f"[{timestamp}] {message}\n")
+    except Exception as e:
+        print(f"Failed to log event: {str(e)}")
 
+# Hàm xử lý từng kết nối
 def handle_client(client_socket, client_address):
     try:
         log_event(f"Connection from {client_address[0]}:{client_address[1]}")
+        
+        # Gửi banner SSH
         client_socket.send(BANNER.encode())
+        
+        # Nhận banner từ client (Hydra gửi banner của nó)
+        client_banner = client_socket.recv(1024).decode(errors="ignore").strip()
+        log_event(f"Client banner from {client_address[0]}: {client_banner}")
+        
+        # Gửi một gói SSH giả lập (để Hydra không báo lỗi "Packet len too high")
+        client_socket.send(b"\x00\x00\x00\x0C\x04\x00\x00\x00\x00\x00\x00\x00")  # Gói SSH giả
+        
+        # Yêu cầu username
         client_socket.send(b"login: ")
-        username = client_socket.recv(1024).decode().strip()
-        log_event(f"Username from {client_address[0]}: {username}")
+        username = client_socket.recv(1024).decode(errors="ignore").strip()
+        if username:
+            log_event(f"Username from {client_address[0]}: {username}")
+        
+        # Yêu cầu password
         client_socket.send(b"password: ")
-        password = client_socket.recv(1024).decode().strip()
-        log_event(f"Password from {client_address[0]}: {password}")
+        password = client_socket.recv(1024).decode(errors="ignore").strip()
+        if password:
+            log_event(f"Password from {client_address[0]}: {password}")
+        
+        # Giả lập phản hồi thất bại
         client_socket.send(b"Permission denied, please try again.\r\n")
     except Exception as e:
         log_event(f"Error with {client_address[0]}: {str(e)}")
     finally:
         client_socket.close()
 
+# Hàm chính để chạy honeypot
 def run_honeypot():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server.bind((HOST, PORT))
+    try:
+        server.bind((HOST, PORT))
+    except Exception as e:
+        print(f"Failed to bind to {HOST}:{PORT}: {str(e)}")
+        return
     server.listen(5)
     print(f"[*] Honeypot listening on {HOST}:{PORT}")
     while True:
