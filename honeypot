@@ -1,0 +1,44 @@
+import socket
+import threading
+import datetime
+
+# Cấu hình honeypot
+HOST = "0.0.0.0"
+PORT = 2222
+BANNER = "SSH-2.0-OpenSSH_6.0p1 Debian-4+deb7u2\r\n"
+LOG_FILE = "honeypot.log"
+
+def log_event(message):
+    with open(LOG_FILE, "a") as f:
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        f.write(f"[{timestamp}] {message}\n")
+
+def handle_client(client_socket, client_address):
+    try:
+        log_event(f"Connection from {client_address[0]}:{client_address[1]}")
+        client_socket.send(BANNER.encode())
+        client_socket.send(b"login: ")
+        username = client_socket.recv(1024).decode().strip()
+        log_event(f"Username from {client_address[0]}: {username}")
+        client_socket.send(b"password: ")
+        password = client_socket.recv(1024).decode().strip()
+        log_event(f"Password from {client_address[0]}: {password}")
+        client_socket.send(b"Permission denied, please try again.\r\n")
+    except Exception as e:
+        log_event(f"Error with {client_address[0]}: {str(e)}")
+    finally:
+        client_socket.close()
+
+def run_honeypot():
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server.bind((HOST, PORT))
+    server.listen(5)
+    print(f"[*] Honeypot listening on {HOST}:{PORT}")
+    while True:
+        client_socket, client_address = server.accept()
+        client_thread = threading.Thread(target=handle_client, args=(client_socket, client_address))
+        client_thread.start()
+
+if __name__ == "__main__":
+    run_honeypot()
