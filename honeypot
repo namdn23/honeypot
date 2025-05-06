@@ -6,3 +6,9 @@ network:
     ens37:
       addresses:
         - 192.168.2.1/24
+
+
+sudo chmod 600 /etc/netplan/01-network-manager-all.yaml
+ls -l /etc/netplan/01-network-manager-all.yaml
+ls -l /etc/netplan/01-network-manager-all.yaml
+cat /etc/netplan/01-network-manager-all.yaml
