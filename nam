@@ -26,10 +26,12 @@ honeypot
 network:
   version: 2
   ethernets:
-    ens37:  # Tên giao diện, kiểm tra bằng `ip addr`
+    ens37:
       addresses:
         - 192.168.2.10/24
-      gateway4: 192.168.2.1
+      routes:
+        - to: default
+          via: 192.168.2.1
 
 sudo apt update && sudo apt upgrade -y
 
