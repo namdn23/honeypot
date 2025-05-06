@@ -12,3 +12,12 @@ sudo chmod 600 /etc/netplan/01-network-manager-all.yaml
 ls -l /etc/netplan/01-network-manager-all.yaml
 ls -l /etc/netplan/01-network-manager-all.yaml
 cat /etc/netplan/01-network-manager-all.yaml
+
+
+sudo systemctl stop NetworkManager
+sudo netplan apply
+sudo systemctl start NetworkManager
+sudo systemctl disable NetworkManager
+sudo netplan apply
+sudo mv /etc/netplan/01-network-manager-all.yaml /etc/netplan/01-network-manager-all.yaml.bak
+sudo nano /etc/netplan/01-netcfg.yaml
