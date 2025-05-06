@@ -3,6 +3,6 @@ network:
   ethernets:
     ens33:
       dhcp4: yes
-    ens34:
+    ens37:
       addresses:
         - 192.168.2.1/24
