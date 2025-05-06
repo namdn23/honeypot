@@ -70,3 +70,6 @@ WantedBy=multi-user.target
 
 sudo systemctl enable cowrie.service
 sudo systemctl start cowrie.service
+
+
+host_key_paths = /var/lib/cowrie/ssh_host_rsa_key,/var/lib/cowrie/ssh_host_dsa_key
