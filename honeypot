@@ -37,3 +37,14 @@ network:
     ens37:
       addresses:
         - 192.168.2.1/24
+
+
+sudo mv /etc/netplan/01-netcfg.yaml /etc/netplan/01-netcfg.yaml.bak
+sudo netplan apply
+
+sudo nmcli con add con-name ens33-static ifname ens33 type ethernet ip4 192.168.1.81/24 gw4 192.168.1.1
+sudo nmcli con mod ens33-static ipv4.dns "8.8.8.8 8.8.4.4"
+sudo nmcli con up ens33-static
+
+sudo nmcli con add con-name ens37-static ifname ens37 type ethernet ip4 192.168.2.1/24
+sudo nmcli con up ens37-static
