@@ -48,3 +48,19 @@ sudo nmcli con up ens33-static
 
 sudo nmcli con add con-name ens37-static ifname ens37 type ethernet ip4 192.168.2.1/24
 sudo nmcli con up ens37-static
+
+
+sudo nmcli con mod ens33-static ipv4.addresses 192.168.1.81/24
+sudo nmcli con mod ens33-static ipv4.gateway 192.168.1.1
+sudo nmcli con mod ens33-static ipv4.dns "8.8.8.8 8.8.4.4"
+sudo nmcli con mod ens33-static ipv4.method manual
+
+
+sudo nmcli con up ens33-static
+
+
+sudo nmcli con add con-name ens37-static ifname ens37 type ethernet
+
+sudo nmcli con mod ens37-static ipv4.addresses 192.168.2.1/24
+sudo nmcli con mod ens37-static ipv4.method manual
+sudo nmcli con up ens37-static
