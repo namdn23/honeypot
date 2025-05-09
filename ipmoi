@@ -1,0 +1,20 @@
+sudo iptables -A FORWARD -i ens37 -o ens33 -j ACCEPT
+
+sudo iptables -D FORWARD -i ens37 -o ens33 -j ACCEPT
+sudo iptables -A FORWARD -i ens37 -o ens33 -p udp --dport 53 -j ACCEPT
+sudo iptables -A FORWARD -i ens37 -o ens33 -p tcp --dport 80 -j ACCEPT
+sudo iptables -A FORWARD -i ens37 -o ens33 -p tcp --dport 443 -j ACCEPT
+
+sudo iptables -A FORWARD -i ens37 -o ens33 -d 192.168.159.0/24 -j DROP
+
+sudo iptables -A FORWARD -i ens33 -o ens37 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+sudo sh -c "iptables-save > /etc/iptables/rules.v4"
+
+
+
+honeypot
+
+
+sudo apt remove nmap curl wget
+sudo chmod 750 /cowrie
