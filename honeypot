@@ -56,6 +56,113 @@ sudo nmcli con mod ens33-static ipv4.dns "8.8.8.8 8.8.4.4"
 sudo nmcli con mod ens33-static ipv4.method manual
 
 
+
+2025-05-09T20:22:53.157344Z [-] Reading configuration from ['/home/nam/cowrie/etc/cowrie.cfg.dist', '/home/nam/cowrie/cowrie.cfg']
+2025-05-09T20:22:53.364455Z [-] Unable to write to plugin cache /home/nam/cowrie/src/twisted/plugins/dropin.cache: error number 13
+2025-05-09T20:22:53.366683Z [-] Python Version 3.13.3 (main, Apr  8 2025, 19:55:40) [GCC 14.2.0]
+2025-05-09T20:22:53.366709Z [-] Twisted Version 24.11.0
+2025-05-09T20:22:53.366716Z [-] Cowrie Version 2.6.1
+2025-05-09T20:22:53.368695Z [-] Loaded output engine: jsonlog
+2025-05-09T20:22:53.369718Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 24.11.0 (/home/nam/cowrie/venv/bin/python3 3.13.3) starting up.
+2025-05-09T20:22:53.369802Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-05-09T20:22:53.375437Z [-] Failed to unlink PID file:
+	Traceback (most recent call last):
+	  File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/scripts/_twistd_unix.py", line 282, in removePID
+	    os.unlink(pidfile)
+	builtins.FileNotFoundError: [Errno 2] No such file or directory: '/home/nam/cowrie/var/run/cowrie.pid'
+	
+2025-05-09T20:22:53.378929Z [stderr#error] Traceback (most recent call last):
+2025-05-09T20:22:53.380549Z [stderr#error]   File "/home/nam/cowrie/venv/bin/twistd", line 8, in <module>
+2025-05-09T20:22:53.380650Z [stderr#error]     sys.exit(run())
+2025-05-09T20:22:53.380689Z [stderr#error]              ~~~^^
+2025-05-09T20:22:53.380731Z [stderr#error]   File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/scripts/twistd.py", line 35, in run
+2025-05-09T20:22:53.380761Z [stderr#error]     app.run(runApp, ServerOptions)
+2025-05-09T20:22:53.380791Z [stderr#error]     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+2025-05-09T20:22:53.380822Z [stderr#error]   File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/application/app.py", line 673, in run
+2025-05-09T20:22:53.380851Z [stderr#error]     runApp(config)
+2025-05-09T20:22:53.380897Z [stderr#error]     ~~~~~~^^^^^^^^
+2025-05-09T20:22:53.380931Z [stderr#error]   File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/scripts/twistd.py", line 29, in runApp
+2025-05-09T20:22:53.380964Z [stderr#error]     runner.run()
+2025-05-09T20:22:53.380991Z [stderr#error]     ~~~~~~~~~~^^
+2025-05-09T20:22:53.381309Z [stderr#error]   File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/application/app.py", line 374, in run
+2025-05-09T20:22:53.381358Z [stderr#error]     self.postApplication()
+2025-05-09T20:22:53.381401Z [stderr#error]     ~~~~~~~~~~~~~~~~~~~~^^
+2025-05-09T20:22:53.381436Z [stderr#error]   File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/scripts/_twistd_unix.py", line 254, in postApplication
+2025-05-09T20:22:53.381468Z [stderr#error]     self.startApplication(self.application)
+2025-05-09T20:22:53.381496Z [stderr#error]     ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+2025-05-09T20:22:53.381533Z [stderr#error]   File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/scripts/_twistd_unix.py", line 436, in startApplication
+2025-05-09T20:22:53.381562Z [stderr#error]     self.setupEnvironment(
+2025-05-09T20:22:53.381588Z [stderr#error]     ~~~~~~~~~~~~~~~~~~~~~^
+2025-05-09T20:22:53.381613Z [stderr#error]         self.config["chroot"],
+2025-05-09T20:22:53.381636Z [stderr#error]         ^^^^^^^^^^^^^^^^^^^^^^
+2025-05-09T20:22:53.381660Z [stderr#error]     ...<3 lines>...
+2025-05-09T20:22:53.381685Z [stderr#error]         self.config["pidfile"],
+2025-05-09T20:22:53.381709Z [stderr#error]         ^^^^^^^^^^^^^^^^^^^^^^^
+2025-05-09T20:22:53.381733Z [stderr#error]     )
+2025-05-09T20:22:53.381756Z [stderr#error]     ^
+2025-05-09T20:22:53.381785Z [stderr#error]   File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/scripts/_twistd_unix.py", line 329, in setupEnvironment
+2025-05-09T20:22:53.381819Z [stderr#error]     with open(pidfile, "wb") as f:
+2025-05-09T20:22:53.381845Z [stderr#error]          ~~~~^^^^^^^^^^^^^^^
+2025-05-09T20:22:53.381887Z [stderr#error] PermissionError: [Errno 13] Permission denied: '/home/nam/cowrie/var/run/cowrie.pid'
+2025-05-09T20:23:18.030487Z [-] Reading configuration from ['/home/nam/cowrie/etc/cowrie.cfg.dist', '/home/nam/cowrie/cowrie.cfg']
+2025-05-09T20:23:18.264929Z [-] Unable to write to plugin cache /home/nam/cowrie/src/twisted/plugins/dropin.cache: error number 13
+2025-05-09T20:23:18.267794Z [-] Python Version 3.13.3 (main, Apr  8 2025, 19:55:40) [GCC 14.2.0]
+2025-05-09T20:23:18.267821Z [-] Twisted Version 24.11.0
+2025-05-09T20:23:18.267831Z [-] Cowrie Version 2.6.1
+2025-05-09T20:23:18.270496Z [-] Loaded output engine: jsonlog
+2025-05-09T20:23:18.271477Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 24.11.0 (/home/nam/cowrie/venv/bin/python3 3.13.3) starting up.
+2025-05-09T20:23:18.271565Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-05-09T20:23:18.278425Z [-] CowrieSSHFactory starting on 2222
+2025-05-09T20:23:18.279180Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x783a16a08050>
+2025-05-09T20:23:18.279799Z [-] Generating new RSA keypair...
+2025-05-09T20:23:18.348586Z [-] Unhandled Error
+	Traceback (most recent call last):
+	  File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
+	    result = callable(*args, **kwargs)
+	  File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
+	    p.startListening()
+	  File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1380, in startListening
+	    self.factory.doStart()
+	  File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/internet/protocol.py", line 78, in doStart
+	    self.startFactory()
+	  File "/home/nam/cowrie/src/cowrie/ssh/factory.py", line 83, in startFactory
+	    rsaPubKeyString, rsaPrivKeyString = cowriekeys.getRSAKeys()
+	  File "/home/nam/cowrie/src/cowrie/ssh/keys.py", line 39, in getRSAKeys
+	    with open(publicKeyFile, "w+b") as f:
+	builtins.PermissionError: [Errno 13] Permission denied: 'var/lib/cowrie/ssh_host_rsa_key.pub'
+	
+2025-05-09T20:33:07.766265Z [twisted.internet.base#info] Received SIGTERM, shutting down.
+2025-05-09T20:33:07.770093Z [twisted.internet.base#info] Main loop terminated.
+2025-05-09T20:33:07.770729Z [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2025-05-09T20:33:13.302135Z [-] Reading configuration from ['/home/nam/cowrie/etc/cowrie.cfg.dist', '/home/nam/cowrie/cowrie.cfg']
+2025-05-09T20:33:13.561041Z [-] Unable to write to plugin cache /home/nam/cowrie/src/twisted/plugins/dropin.cache: error number 13
+2025-05-09T20:33:13.564173Z [-] Python Version 3.13.3 (main, Apr  8 2025, 19:55:40) [GCC 14.2.0]
+2025-05-09T20:33:13.564201Z [-] Twisted Version 24.11.0
+2025-05-09T20:33:13.564211Z [-] Cowrie Version 2.6.1
+2025-05-09T20:33:13.566668Z [-] Loaded output engine: jsonlog
+2025-05-09T20:33:13.567751Z [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 24.11.0 (/home/nam/cowrie/venv/bin/python3 3.13.3) starting up.
+2025-05-09T20:33:13.567842Z [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2025-05-09T20:33:13.576767Z [-] CowrieSSHFactory starting on 2222
+2025-05-09T20:33:13.577931Z [cowrie.ssh.factory.CowrieSSHFactory#info] Starting factory <cowrie.ssh.factory.CowrieSSHFactory object at 0x7f679d608050>
+2025-05-09T20:33:13.579144Z [-] Generating new RSA keypair...
+2025-05-09T20:33:13.624803Z [-] Unhandled Error
+	Traceback (most recent call last):
+	  File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/internet/defer.py", line 155, in execute
+	    result = callable(*args, **kwargs)
+	  File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/internet/posixbase.py", line 366, in listenTCP
+	    p.startListening()
+	  File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/internet/tcp.py", line 1380, in startListening
+	    self.factory.doStart()
+	  File "/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/internet/protocol.py", line 78, in doStart
+	    self.startFactory()
+	  File "/home/nam/cowrie/src/cowrie/ssh/factory.py", line 83, in startFactory
+	    rsaPubKeyString, rsaPrivKeyString = cowriekeys.getRSAKeys()
+	  File "/home/nam/cowrie/src/cowrie/ssh/keys.py", line 39, in getRSAKeys
+	    with open(publicKeyFile, "w+b") as f:
+	builtins.PermissionError: [Errno 13] Permission denied: 'var/lib/cowrie/ssh_host_rsa_key.pub'
+
+
+
 sudo nmcli con up ens33-static
 
 
