@@ -171,3 +171,12 @@ sudo nmcli con add con-name ens37-static ifname ens37 type ethernet
 sudo nmcli con mod ens37-static ipv4.addresses 192.168.2.1/24
 sudo nmcli con mod ens37-static ipv4.method manual
 sudo nmcli con up ens37-static
+
+
+
+Using activated Python virtual environment "/home/nam/cowrie/venv"
+Starting cowrie: [twistd  --umask=0022 --pidfile=var/run/cowrie.pid --logger cowrie.python.logfile.logger cowrie ]...
+/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/conch/ssh/transport.py:105: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  b"3des-cbc": (algorithms.TripleDES, 24, modes.CBC),
+/home/nam/cowrie/venv/lib/python3.13/site-packages/twisted/conch/ssh/transport.py:112: CryptographyDeprecationWarning: TripleDES has been moved to cryptography.hazmat.decrepit.ciphers.algorithms.TripleDES and will be removed from cryptography.hazmat.primitives.ciphers.algorithms in 48.0.0.
+  b"3des-ctr": (algorithms.TripleDES, 24, modes.CTR),
