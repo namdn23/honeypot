@@ -4,3 +4,5 @@ sudo iptables -D FORWARD 5  # Xóa quy tắc DROP hiện tại
 sudo iptables -I FORWARD 1 -i ens37 -o ens33 -d 192.168.159.0/24 -j DROP
 
 sudo iptables -I FORWARD 1 -i ens37 -o ens33 -p icmp --icmp-type echo-request -d 192.168.159.0/24 -j DROP
+
+sudo sh -c "iptables-save > /etc/iptables/rules.v4"
