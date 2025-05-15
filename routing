@@ -13,3 +13,14 @@ sudo iptables -A INPUT -i ens37 -s 192.168.2.0/24 -p icmp --icmp-type echo-reque
 sudo iptables -I FORWARD 1 -i ens37 -o ens33 -p icmp --icmp-type echo-request -d 8.8.8.8 -j ACCEPT
 
 sudo iptables -I FORWARD 1 -i ens37 -o ens33 -p icmp --icmp-type echo-request -j ACCEPT
+
+
+sudo iptables -A FORWARD -i ens37 -o ens38 -j DROP  # Chặn DMZ sang LAN
+sudo iptables -A FORWARD -i ens37 -o ens33 -p tcp --dport 80 -j ACCEPT  # Cho HTTP ra Internet (nếu cần cập nhật)
+sudo iptables -A FORWARD -i ens37 -o ens33 -p tcp --dport 443 -j ACCEPT  # Cho HTTPS ra Internet (nếu cần cập nhật)
+sudo iptables -A FORWARD -i ens37 -o ens33 -p udp --dport 53 -j ACCEPT  # Cho DNS ra Internet (nếu cần cập nhật)
+sudo iptables -A FORWARD -i ens33 -o ens37 -m state --state RELATED,ESTABLISHED -j ACCEPT  # Cho phép trả về
+sudo iptables -A FORWARD -i ens38 -o ens33 -m state --state RELATED,ESTABLISHED -j ACCEPT  # Cho phép LAN ra Internet
+sudo iptables -A FORWARD -i ens33 -o ens38 -m state --state RELATED,ESTABLISHED -j ACCEPT  # Cho phép trả về LAN
+
+sudo iptables -A INPUT -i ens37 -s 192.168.2.0/24 -p icmp --icmp-type echo-request -d 192.168.159.0/24 -j DROP  # Giữ nguyên
