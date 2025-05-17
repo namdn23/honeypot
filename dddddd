@@ -46,3 +46,9 @@ sudo iptables -A FORWARD -i ens38 -o ens33 -p icmp --icmp-type echo-request -j A
 sudo iptables -A FORWARD -i ens37 -o ens33 -j ACCEPT
 sudo iptables -A FORWARD -i ens38 -o ens33 -j ACCEPT
 sudo iptables -I FORWARD 2 -i ens37 -o ens33 -j ACCEPT
+
+
+sudo iptables -D FORWARD 6  # Xóa quy tắc chặn 192.168.159.0/24
+sudo iptables -I FORWARD 3 -i ens37 -o ens33 -d 192.168.159.143 -p icmp --icmp-type echo-request -j ACCEPT  # Cho phép ping Router
+sudo iptables -I FORWARD 4 -i ens37 -o ens33 -d 192.168.159.143 -p udp --dport 53 -j ACCEPT  # Cho phép DNS đến Router
+sudo iptables -A FORWARD -i ens37 -o ens33 -d 192.168.159.0/24 -j DROP  # Chặn các IP khác trong 192.168.159.0/24
