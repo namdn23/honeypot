@@ -41,3 +41,8 @@ sudo sh -c "iptables-save > /etc/iptables/rules.v4"
 sudo iptables -A FORWARD -i ens38 -o ens33 -p tcp --match multiport --dports 80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i ens38 -o ens33 -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i ens38 -o ens33 -p icmp --icmp-type echo-request -j ACCEPT
+
+
+sudo iptables -A FORWARD -i ens37 -o ens33 -j ACCEPT
+sudo iptables -A FORWARD -i ens38 -o ens33 -j ACCEPT
+sudo iptables -I FORWARD 2 -i ens37 -o ens33 -j ACCEPT
