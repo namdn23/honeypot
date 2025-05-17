@@ -36,3 +36,8 @@ sudo iptables -t nat -A POSTROUTING -o ens33 -s 192.168.3.0/24 -j MASQUERADE
 
 
 sudo sh -c "iptables-save > /etc/iptables/rules.v4"
+
+
+sudo iptables -A FORWARD -i ens38 -o ens33 -p tcp --match multiport --dports 80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i ens38 -o ens33 -p udp --dport 53 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i ens38 -o ens33 -p icmp --icmp-type echo-request -j ACCEPT
