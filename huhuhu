@@ -1,0 +1,12 @@
+sudo nano /etc/sysctl.conf
+net.ipv4.ip_forward=1
+
+grep -r "ip_forward" /etc/sysctl.d/
+
+grep -r "ip_forward" /usr/lib/sysctl.d/
+grep -r "ip_forward" /run/sysctl.d/
+sudo nano /path/to/file
+
+ls -l /etc/sysctl.conf
+
+sudo chmod 644 /etc/sysctl.conf
