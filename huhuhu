@@ -50,3 +50,20 @@ sudo iptables -A FORWARD -s 192.168.2.10 -d 192.168.159.0/24 -i ens37 -o ens33 -
 sudo iptables -I FORWARD 4 -s 192.168.2.10 -d 192.168.159.0/24 -i ens37 -o ens33 -p tcp --sport 2222 -j ACCEPT
 
 sudo sh -c "iptables-save > /etc/iptables/rules.v4"
+
+
+
+sudo iptables -I FORWARD 1 -s 192.168.2.10 -d 192.168.159.0/24 -i ens37 -o ens33 -p tcp --sport 2222 -j ACCEPT
+
+sudo iptables -I FORWARD 1 -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+sudo iptables -t nat -A POSTROUTING -s 192.168.2.10 -o ens33 -p tcp --sport 2222 -j MASQUERADE
+
+
+sudo iptables -I FORWARD 1 -m state --state ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -I FORWARD 2 -s 192.168.2.10 -d 192.168.159.0/24 -i ens37 -o ens33 -p tcp --sport 2222 -j ACCEPT
+
+
+sudo iptables -t nat -D POSTROUTING 1
+
+sudo iptables -t nat -A POSTROUTING -s 192.168.2.10 -o ens33 -p tcp --sport 2222 -j MASQUERADE
