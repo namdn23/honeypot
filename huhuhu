@@ -44,3 +44,9 @@ sudo iptables -A FORWARD -s 192.168.2.0/24 -d 192.168.159.0/24 -i ens37 -o ens33
 sudo iptables -t nat -A PREROUTING -i ens33 -s 192.168.159.0/24 -p tcp --dport 2222 -j DNAT --to-destination 192.168.2.10:2222
 sudo iptables -t nat -A POSTROUTING -s 192.168.2.0/24 -o ens33 -j MASQUERADE
 sudo iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o ens33 -j MASQUERADE
+
+sudo iptables -A FORWARD -s 192.168.2.10 -d 192.168.159.0/24 -i ens37 -o ens33 -p tcp --sport 2222 -j ACCEPT
+
+sudo iptables -I FORWARD 4 -s 192.168.2.10 -d 192.168.159.0/24 -i ens37 -o ens33 -p tcp --sport 2222 -j ACCEPT
+
+sudo sh -c "iptables-save > /etc/iptables/rules.v4"
