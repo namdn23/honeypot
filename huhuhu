@@ -10,3 +10,30 @@ sudo nano /path/to/file
 ls -l /etc/sysctl.conf
 
 sudo chmod 644 /etc/sysctl.conf
+
+sudo iptables -A FORWARD -s 192.168.2.0/24 -d 192.168.159.0/24 -i ens37 -o ens33 -p icmp --icmp-type echo-reply -j ACCEPT
+
+sudo iptables -t nat -A PREROUTING -i ens33 -s 192.168.159.0/24 -p tcp --dport 2222 -j DNAT --to-destination 192.168.2.10:2222
+
+
+# Chặn DMZ đến LAN và IP Router
+sudo iptables -A INPUT -i ens37 -s 192.168.2.0/24 -d 192.168.3.3 -j DROP
+sudo iptables -A OUTPUT -o ens37 -s 192.168.3.3 -d 192.168.2.0/24 -j DROP
+sudo iptables -A FORWARD -i ens37 -o ens38 -j DROP
+sudo iptables -A FORWARD -i ens38 -o ens37 -j DROP
+
+# Cho phép DMZ và LAN ra Internet
+sudo iptables -A FORWARD -i ens37 -o ens33 -j ACCEPT
+sudo iptables -A FORWARD -i ens33 -o ens37 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i ens38 -o ens33 -j ACCEPT
+sudo iptables -A FORWARD -i ens33 -o ens38 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# Mở cổng 2222 và ICMP cho hacker
+sudo iptables -A FORWARD -s 192.168.159.0/24 -i ens33 -o ens37 -p tcp --dport 2222 -j ACCEPT
+sudo iptables -A FORWARD -s 192.168.159.0/24 -i ens33 -o ens37 -p icmp --icmp-type echo-request -j ACCEPT
+sudo iptables -A FORWARD -s 192.168.2.0/24 -d 192.168.159.0/24 -i ens37 -o ens33 -p icmp --icmp-type echo-reply -j ACCEPT
+
+# NAT: Chuyển hướng cổng 2222 đến honeypot
+sudo iptables -t nat -A PREROUTING -i ens33 -s 192.168.159.0/24 -p tcp --dport 2222 -j DNAT --to-destination 192.168.2.10:2222
+sudo iptables -t nat -A POSTROUTING -s 192.168.2.0/24 -o ens33 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -s 192.168.3.0/24 -o ens33 -j MASQUERADE
