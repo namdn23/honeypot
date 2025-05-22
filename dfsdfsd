@@ -1,0 +1,114 @@
+ The Fair Queue CoDel packet scheduler is an across the board improvement to
+# the default pfifo_fast qdisc. It reduces bottleneck delays, provides accurate
+# RTT estimates to elephant TCP flows, and still allows shorter (sparser) flows
+# like DNS, ARP, SYN, routing, etc packets priority access. For technical
+# details, refer to https://www.bufferbloat.net/projects/codel/wiki/
+#
+# To fight bufferbloat, set it as the default qdisc in Ubuntu.
+-net.core.default_qdisc = fq_codel
+
+# the following stops low-level messages on console
+kernel.printk = 4 4 1 7
+# IPv6 Privacy Extensions (RFC 4941)
+# ---
+# IPv6 typically uses a device's MAC address when choosing an IPv6 address
+# to use in autoconfiguration. Privacy extensions allow using a randomly
+# generated IPv6 address, which increases privacy.
+#
+# Acceptable values:
+#    0 - don’t use privacy extensions.
+#    1 - generate privacy addresses
+#    2 - prefer privacy addresses and use them over the normal addresses.
+net.ipv6.conf.all.use_tempaddr = 2
+net.ipv6.conf.default.use_tempaddr = 2
+# These settings are specific to hardening the kernel itself from attack
+# from userspace, rather than protecting userspace from other malicious
+# userspace things.
+#
+#
+# When an attacker is trying to exploit the local kernel, it is often
+# helpful to be able to examine where in memory the kernel, modules,
+# and data structures live. As such, kernel addresses should be treated
+# as sensitive information.
+#
+# Many files and interfaces contain these addresses (e.g. /proc/kallsyms,
+# /proc/modules, etc), and this setting can censor the addresses. A value
+# of "0" allows all users to see the kernel addresses. A value of "1"
+# limits visibility to the root user, and "2" blocks even the root user.
+kernel.kptr_restrict = 1
+
+# Access to the kernel log buffer can be especially useful for an attacker
+# attempting to exploit the local kernel, as kernel addresses and detailed
+# call traces are frequently found in kernel oops messages. Setting
+# dmesg_restrict to "0" allows all users to view the kernel log buffer,
+# and setting it to "1" restricts access to those with CAP_SYSLOG.
+#
+# dmesg_restrict defaults to 1 via CONFIG_SECURITY_DMESG_RESTRICT, only
+# uncomment the following line to disable.
+# kernel.dmesg_restrict = 0
+# The magic SysRq key enables certain keyboard combinations to be
+# interpreted by the kernel to help with debugging. The kernel will respond
+# to these keys regardless of the current running applications.
+#
+# In general, the magic SysRq key is not needed for the average Ubuntu
+# system, and having it enabled by default can lead to security issues on
+# the console such as being able to dump memory or to kill arbitrary
+# processes including the running screen lock.
+#
+# Here is the list of possible values:
+#   0 - disable sysrq completely
+#   1 - enable all functions of sysrq
+#  >1 - enable certain functions by adding up the following values:
+#          2 - enable control of console logging level
+#          4 - enable control of keyboard (SAK, unraw)
+#          8 - enable debugging dumps of processes etc.
+#         16 - enable sync command
+#         32 - enable remount read-only
+#         64 - enable signalling of processes (term, kill, oom-kill)
+#        128 - allow reboot/poweroff
+#        256 - allow nicing of all RT tasks
+#
+#   For example, to enable both control of console logging level and
+#   debugging dumps of processes: kernel.sysrq = 10
+#
+kernel.sysrq = 176
+# Increase the number of virtual memory areas that one process may request
+# https://bugs.launchpad.net/ubuntu/+source/procps/+bug/2057792
+vm.max_map_count=1048576
+
+# Turn on Source Address Verification in all interfaces to
+# prevent some spoofing attacks.
+net.ipv4.conf.default.rp_filter=2
+net.ipv4.conf.all.rp_filter=2
+
+# The PTRACE system is used for debugging.  With it, a single user process
+# can attach to any other dumpable process owned by the same user.  In the
+# case of malicious software, it is possible to use PTRACE to access
+# credentials that exist in memory (re-using existing SSH connections,
+# extracting GPG agent information, etc).
+#
+# A PTRACE scope of "0" is the more permissive mode.  A scope of "1" limits
+# PTRACE only to direct child processes (e.g. "gdb name-of-program" and
+# "strace -f name-of-program" work, but gdb's "attach" and "strace -fp $PID"
+# do not).  The PTRACE scope is ignored when a user has CAP_SYS_PTRACE, so
+# "sudo strace -fp $PID" will work as before.  For more details see:
+# https://wiki.ubuntu.com/SecurityTeam/Roadmap/KernelHardening#ptrace
+#
+# For applications launching crash handlers that need PTRACE, exceptions can
+# be registered by the debugee by declaring in the segfault handler
+# specifically which process will be using PTRACE on the debugee:
+#   prctl(PR_SET_PTRACER, debugger_pid, 0, 0, 0);
+#
+# In general, PTRACE is not needed for the average running Ubuntu system.
+# To that end, the default is to set the PTRACE scope to "1".  This value
+# may not be appropriate for developers or servers with only admin accounts.
+kernel.yama.ptrace_scope = 1
+# Protect the zero page of memory from userspace mmap to prevent kernel
+# NULL-dereference attacks against potential future kernel security
+# vulnerabilities.  (Added in kernel 2.6.23.)
+#
+# While this default is built into the Ubuntu kernel, there is no way to
+# restore the kernel default if the value is changed during runtime; for
+# example via package removal (e.g. wine, dosemu).  Therefore, this value
+# is reset to the secure default each time the sysctl values are loaded.
+vm.mmap_min_addr = 65536
