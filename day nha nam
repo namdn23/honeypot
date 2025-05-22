@@ -38,3 +38,8 @@ sudo iptables -A FORWARD -d 192.168.2.10 -i ens33 -p icmp --icmp-type 0 -j ACCEP
 
 sudo iptables -A FORWARD -s 192.168.2.10 -o ens33 -j ACCEPT
 sudo iptables -A FORWARD -d 192.168.2.10 -i ens33 -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+
+
+
+sudo iptables -t nat -A POSTROUTING -s 192.168.2.10 -o ens33 -p tcp --sport 2222 -j MASQUERADE
