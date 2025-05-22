@@ -4,3 +4,8 @@ sudo iptables -D FORWARD 13
 
 sudo iptables -I FORWARD 7 -i ens37 -o ens38 -p icmp --icmp-type 8 -j DROP
 sudo iptables -I FORWARD 8 -i ens37 -o ens38 -j DROP
+
+
+sudo iptables -A FORWARD -s 203.0.113.0/24 -d 192.168.3.0/24 -j DROP
+
+sudo iptables -A FORWARD -s 203.0.113.0/24 -d 192.168.2.0/24 -j DROP
