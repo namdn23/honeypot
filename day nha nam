@@ -31,3 +31,10 @@ sudo iptables -A INPUT -s 192.168.2.10 -d 192.168.3.3 -p icmp --icmp-type 8 -j D
 
 sudo iptables -A FORWARD -s 192.168.2.10 -d 192.168.159.2 -p icmp --icmp-type 8 -j ACCEPT
 sudo iptables -A FORWARD -d 192.168.2.10 -s 192.168.159.2 -p icmp --icmp-type 0 -j ACCEPT
+
+
+sudo iptables -A FORWARD -s 192.168.2.10 -o ens33 -p icmp --icmp-type 8 -j ACCEPT
+sudo iptables -A FORWARD -d 192.168.2.10 -i ens33 -p icmp --icmp-type 0 -j ACCEPT
+
+sudo iptables -A FORWARD -s 192.168.2.10 -o ens33 -j ACCEPT
+sudo iptables -A FORWARD -d 192.168.2.10 -i ens33 -m state --state ESTABLISHED,RELATED -j ACCEPT
