@@ -1,0 +1,29 @@
+sudo iptables  -L -v -n --line-numbers
+[sudo] password for nam: 
+Chain INPUT (policy ACCEPT 267 packets, 53329 bytes)
+num   pkts bytes target     prot opt in     out     source               destination         
+1        0     0 DROP       icmp --  *      *       192.168.2.10         192.168.3.3          icmptype 8
+
+Chain FORWARD (policy DROP 0 packets, 0 bytes)
+num   pkts bytes target     prot opt in     out     source               destination         
+1        0     0 ACCEPT     udp  --  *      ens33   192.168.2.10         0.0.0.0/0            udp dpt:53
+2        0     0 ACCEPT     tcp  --  *      ens33   192.168.2.10         0.0.0.0/0            tcp dpt:80
+3        0     0 ACCEPT     tcp  --  *      ens33   192.168.2.10         0.0.0.0/0            tcp dpt:443
+4        0     0 ACCEPT     all  --  ens33  *       0.0.0.0/0            192.168.2.10         state RELATED,ESTABLISHED
+5        0     0 ACCEPT     tcp  --  ens33  ens37   192.168.159.0/24     192.168.2.10         tcp dpt:2222
+6        0     0 ACCEPT     tcp  --  ens37  ens33   192.168.2.10         192.168.159.0/24     tcp spt:2222
+7        0     0 DROP       icmp --  ens37  ens38   0.0.0.0/0            0.0.0.0/0            icmptype 8
+8        0     0 DROP       all  --  ens37  ens38   0.0.0.0/0            0.0.0.0/0           
+9        0     0 DROP       icmp --  ens37  ens38   0.0.0.0/0            0.0.0.0/0            icmptype 8
+10       0     0 DROP       all  --  ens37  ens38   0.0.0.0/0            0.0.0.0/0           
+11       0     0 DROP       icmp --  *      *       192.168.2.10         192.168.3.0/24       icmptype 8
+12       0     0 DROP       all  --  ens37  ens38   0.0.0.0/0            0.0.0.0/0           
+13       0     0 DROP       all  --  *      *       192.168.2.10         192.168.3.0/24      
+14       0     0 ACCEPT     icmp --  *      *       192.168.2.10         192.168.159.2        icmptype 8
+15       0     0 ACCEPT     all  --  ens33  *       0.0.0.0/0            192.168.2.10         state RELATED,ESTABLISHED
+16       0     0 DROP       icmp --  *      *       192.168.159.0/24     192.168.2.10         icmptype 8
+17       0     0 DROP       all  --  *      *       192.168.159.0/24     192.168.3.0/24      
+18       0     0 DROP       all  --  *      *       192.168.159.0/24     192.168.3.3         
+
+Chain OUTPUT (policy ACCEPT 177 packets, 18682 bytes)
+num   pkts bytes target     prot opt in     out     source               destination  
