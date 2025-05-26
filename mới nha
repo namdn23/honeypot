@@ -78,3 +78,13 @@ sudo snort -Q -i ens37 -c /etc/snort/snort.conf -l /var/log/snort
 kt ne
 
 ls -lh /var/log/ssh_traffic.pcap
+
+
+
+echo "deb http://www.snort.org/debian/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/snort.list
+
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
+
+sudo apt install elasticsearch logstash kibana -y
+
+sudo apt install snort -y
