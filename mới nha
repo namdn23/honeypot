@@ -12,3 +12,10 @@ echo "deb http://www.snort.org/download/snort $(lsb_release -cs) main" | sudo te
 sudo apt update
 
 sudo apt install snort -y
+
+
+sudo apt install openjdk-11-jre -y
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
+sudo apt update
+sudo apt install elasticsearch logstash kibana -y
