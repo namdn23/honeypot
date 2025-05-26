@@ -1,0 +1,14 @@
+sudo nano /etc/apt/sources.list
+
+
+deb http://archive.ubuntu.com/ubuntu/ focal main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ focal-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ focal-updates main restricted universe multiverse
+
+sudo apt install -y wget gnupg
+wget https://www.snort.org/downloads/snort/gnupg/snort-archive-keyring.gpg -O - | sudo apt-key add -
+echo "deb http://www.snort.org/download/snort $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/snort.list
+
+sudo apt update
+
+sudo apt install snort -y
