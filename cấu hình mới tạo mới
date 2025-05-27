@@ -16,3 +16,10 @@ sudo apt-key add GPG-KEY-elasticsearch
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
 
 sudo apt install elasticsearch logstash kibana -y
+
+
+sudo mv GPG-KEY-elasticsearch /usr/share/keyrings/elastic-keyring.gpg
+
+sudo chmod 644 /usr/share/keyrings/elastic-keyring.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/elastic-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
