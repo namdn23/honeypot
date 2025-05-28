@@ -1,0 +1,46 @@
+input {
+  file {
+    path => "/var/log/snort/alert"
+    start_position => "beginning"
+    sincedb_path => "/dev/null"
+  }
+  file {
+    path => "/var/log/cowrie/cowrie.log"
+    start_position => "beginning"
+    sincedb_path => "/dev/null"
+  }
+}
+filter {
+  grok {
+    match => { "message" => "%{SYSLOGTIMESTAMP:timestamp} %{DATA:hostname} %{DATA:process}\[%{NUMBER:pid}\]: %{GREEDYDATA:message}" }
+  }
+  if [path] == "/var/log/snort/alert" {
+    mutate { add_field => { "source" => "snort" } }
+  }
+  if [path] == "/var/log/cowrie/cowrie.log" {
+    mutate { add_field => { "source" => "cowrie" } }
+  }
+}
+output {
+  elasticsearch {
+    hosts => ["localhost:9200"]
+    index => "honeynet-%{+YYYY.MM.dd}"
+  }
+  stdout { codec => rubydebug }
+}
+
+
+
+
+sudo apt install rsync -y
+
+rsync -avz --progress /var/log/cowrie/cowrie.log nam@192.168.159.143:/var/log/cowrie/
+
+sudo mkdir -p /var/log/cowrie
+sudo chown nam:nam /var/log/cowrie
+
+crontab -e
+
+*/5 * * * * rsync -az /var/log/cowrie/cowrie.log <user>@192.168.159.143:/var/log/cowrie/
+
+scp /var/log/cowrie/cowrie.log nam@192.168.159.143:/var/log/cowrie/
