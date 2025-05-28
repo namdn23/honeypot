@@ -50,3 +50,8 @@ scp /var/log/cowrie/cowrie.log nam@192.168.159.143:/var/log/cowrie/
 wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssh/openssh-server_9.0p1-1ubuntu8_amd64.deb
 
 sudo dpkg -i openssh-server_9.0p1-1ubuntu8_amd64.deb
+
+
+deb http://archive.ubuntu.com/ubuntu/ noble main restricted universe multiverse
+deb http://archive.Ubuntu.com/ubuntu/ noble-updates main restricted universe multiverse
+deb http://security.Ubuntu.com/ubuntu/ noble-security main restricted universe multiverse
