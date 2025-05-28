@@ -44,3 +44,10 @@ crontab -e
 */5 * * * * rsync -az /var/log/cowrie/cowrie.log <user>@192.168.159.143:/var/log/cowrie/
 
 scp /var/log/cowrie/cowrie.log nam@192.168.159.143:/var/log/cowrie/
+
+
+
+wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssh/openssh-server_9.0p1-1ubuntu8_amd64.deb
+
+
+sudo dpkg -i openssh-server_9.0p1-1ubuntu8_amd64.deb
