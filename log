@@ -45,6 +45,17 @@ config sid_file:   /etc/snort/sid-msg.map
 
 sudo barnyard2 -c /etc/barnyard2.conf -f snort.log -w /var/log/snort/barnyard2.waldo
 
+
+wget https://github.com/firnsy/barnyard2/archive/master.zip
+unzip master.zip
+cd barnyard2-master
+
+sudo apt install build-essential libpcap-dev libpcre3-dev libdumbnet-dev bison flex
+
+./autogen.sh
+./configure
+make
+sudo make install
 sudo tail -f /var/log/syslog
 output alert_syslog: LOG_AUTH LOG_ALERT
 input unified2
