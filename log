@@ -18,3 +18,13 @@ tail -f /var/log/cowrie/cowrie.log
 sudo touch /var/log/honeypot.log
 sudo chmod 644 /var/log/honeypot.log
 sudo chown syslog:adm /var/log/honeypot.log
+
+
+alert tcp 192.168.159.0/24 any -> 192.168.2.10 2222 (msg:"Suspicious TCP to Honeypot"; sid:1000001;)
+
+sudo snort -i ens33 -c /etc/snort/snort.conf -l /var/log/snort
+sudo cat /var/log/snort/alert
+
+sudo tcpdump -i ens33 host 192.168.159.143 and port 2222 -w /var/log/honeypot.pcap
+
+sudo tcpdump -r /var/log/honeypot.pcap
