@@ -1,0 +1,15 @@
+sudo iptables-legacy -A FORWARD -d 192.168.2.10 -p tcp --dport 2222 -j LOG --log-prefix "HACKER_LOG: "
+sudo iptables-legacy -A FORWARD -s 192.168.159.0/24 -d 192.168.2.10 -p tcp --dport 2222 -j LOG --log-prefix "HACKER_LOG: "
+
+sudo iptables-legacy -L FORWARD -v -n
+
+
+echo ':msg, contains, "HACKER_LOG: " -/var/log/honeypot.log' | sudo tee /etc/rsyslog.d/iptables.conf
+sudo systemctl restart rsyslog
+
+sudo tail -f /var/log/honeypot.log
+
+sudo tail -f /var/log/honeypot.log
+
+
+tail -f /var/log/cowrie/cowrie.log
