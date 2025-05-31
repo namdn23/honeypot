@@ -13,3 +13,8 @@ sudo tail -f /var/log/honeypot.log
 
 
 tail -f /var/log/cowrie/cowrie.log
+
+
+sudo touch /var/log/honeypot.log
+sudo chmod 644 /var/log/honeypot.log
+sudo chown syslog:adm /var/log/honeypot.log
