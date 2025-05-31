@@ -33,3 +33,18 @@ sudo mkdir -p /var/log/snort
 sudo chmod 6755 /var/log/snort
 sudo chown snort:snort /var/log/snort
 sudo snort -i ens33 -c /etc/snort/snort.conf -l /var/log/snort -A console
+
+
+sudo apt install barnyard2
+
+
+sudo nano /etc/barnyard2.conf
+config reference_file:   /etc/snort/reference.config
+config classification_file:   /etc/snort/classification.config
+config sid_file:   /etc/snort/sid-msg.map
+
+sudo barnyard2 -c /etc/barnyard2.conf -f snort.log -w /var/log/snort/barnyard2.waldo
+
+sudo tail -f /var/log/syslog
+output alert_syslog: LOG_AUTH LOG_ALERT
+input unified2
