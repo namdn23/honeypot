@@ -28,3 +28,8 @@ sudo cat /var/log/snort/alert
 sudo tcpdump -i ens33 host 192.168.159.143 and port 2222 -w /var/log/honeypot.pcap
 
 sudo tcpdump -r /var/log/honeypot.pcap
+
+sudo mkdir -p /var/log/snort
+sudo chmod 6755 /var/log/snort
+sudo chown snort:snort /var/log/snort
+sudo snort -i ens33 -c /etc/snort/snort.conf -l /var/log/snort -A console
