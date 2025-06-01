@@ -1,0 +1,12 @@
+sudo iptables-legacy -A FORWARD -d 192.168.2.10 -p tcp --dport 2222 -j LOG --log-prefix "HACKER_LOG: "
+
+sudo tail -f /var/log/kern.log
+
+sudo snort -i ens33 -c /etc/snort/snort.conf -l /var/log/snort -A console
+
+alert tcp 192.168.159.0/24 any -> 192.168.2.10 2222 (msg:"Hacker Attack on Honeypot"; sid:1000001; rev:1;)
+alert tcp any any -> 192.168.2.10 any (msg:"Possible Port Scan"; flow:to_server; threshold: type threshold, track by_src, count 10, seconds 60; sid:1000002; rev:1;)
+
+sudo barnyard2 -c /etc/barnyard2.conf -f snort.log -w /var/log/snort/barnyard2.waldo
+
+sudo tail -f /var/log/syslog
