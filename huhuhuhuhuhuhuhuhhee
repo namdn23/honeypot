@@ -1,0 +1,6 @@
+sudo iptables -t nat -A PREROUTING -i ens33 -p tcp --dport 2222 -j DNAT --to-destination 192.168.2.10:22
+sudo iptables -t nat -A POSTROUTING -o ens37 -j MASQUERADE
+
+sudo iptables -A FORWARD -p tcp -s 192.168.159.128 -d 192.168.2.10 --dport 22 -j ACCEPT
+sudo iptables -A FORWARD -p tcp -s 192.168.2.10 -d 192.168.159.128 --sport 22 -j ACCEPT
+sudo iptables-save > /etc/iptables/rules.v4
